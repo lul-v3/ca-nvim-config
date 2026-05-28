@@ -90,37 +90,49 @@ M.disable_plugins = {
 }
 
 M.additional_plugins = {
-  -- You can put your additional plugins here.
-  -- Syntax is like normal packer.nvim Syntax.
-  -- If you need to set some settings for your plugins
-  -- you must put configs in config = function() like below examples
-
-  -- { "famiu/feline.nvim", branch = "develop" },
-
-  -- "mhartington/formatter.nvim",
-
-  -- { "crispgm/nvim-go", ft = "go" },
-
-  -- {
-  --   "iamcco/markdown-preview.nvim",
-  --   ft = "markdown",
-  --   run = ":call mkdp#util#install()",
-  --   config = function()
-  --     vim.g.mkdp_auto_close = 0
-  --   end,
-  -- },
-
-  -- {
-  --   "andweeb/presence.nvim",
-  --   config = function()
-  --     require("presence"):setup({
-  --       log_level = "info", -- Log messages (one of the following: "debug", "info", "warn", "error")
-  --       debounce_timeout = 5,
-  --       blacklist = {}, -- file name, path, or workspace matches
-  --     })
-  --   end,
   "Mofiqul/vscode.nvim",
-  -- },
+
+  {
+    "vyfor/cord.nvim",
+    build = ":Cord update",
+    event = { "BufReadPre", "BufNewFile" },
+
+    config = function()
+    require("cord").setup({
+      idle = {
+        enabled = true,
+        timeout = 300000,
+        text = "AFK in Neovim",
+      },
+
+      text = {
+        viewing = function(opts)
+        return "Reading " .. opts.filename
+        end,
+
+        editing = function(opts)
+        return "Editing " .. opts.filename
+        end,
+
+        workspace = function(opts)
+        return "Workspace: " .. opts.workspace
+        end,
+      },
+
+      display = {
+        theme = "default",
+        flavor = "dark",
+      },
+
+      buttons = {
+        {
+          label = "GitHub",
+          url = "https://github.com/lulv3"
+        }
+      }
+    })
+    end
+  },
 }
 
 -- NOTE: here
